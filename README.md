@@ -438,5 +438,45 @@ For detailed troubleshooting, see the [Issues](https://github.com/BeleshShinde/P
 *Last Updated: November 15, 2025 | Version: 1.0.0*
 
 ---
+## Project UI 
+```bash
+1. Login Page
+```
+
+<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/8ac0f2fd-7843-4f6a-b373-f2f49a57ffeb" />
+
+```bash
+2. Dashboard
+```
+
+<img width="1919" height="873" alt="image" src="https://github.com/user-attachments/assets/a5631cf5-49cf-437e-9751-a2a82dd1e251" />
+
+```bash
+3. ADD New Dispenser Record
+```
+
+<img width="1919" height="867" alt="image" src="https://github.com/user-attachments/assets/3d754312-b6ed-4dd9-bb5b-8bb5f38e3462" />
+
+```bash
+4. Dashboard
+```
+
+<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/34dff82f-8f5b-47bd-b5f5-f484912fca19" />
+
+```bash
+5. View Record
+```
+
+<img width="1919" height="879" alt="image" src="https://github.com/user-attachments/assets/9a035c39-9de8-4b9e-9536-c14ed56b7c24" />
+
+```bash
+6. Downloaded PDF Format
+```
+
+<img width="747" height="804" alt="image" src="https://github.com/user-attachments/assets/8f4c4a80-bfcf-4815-af0c-81a02a5f910b" />
+
+
+
+
 
 ⭐ **Star this repository if you find it helpful!**
