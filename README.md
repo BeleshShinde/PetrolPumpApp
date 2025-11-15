@@ -134,14 +134,18 @@ Done! Database is created automatically
 Option 2: Manual Database Setup (If you prefer manual control)
 Step 1: Create Database
 Open SQL Server Management Studio (SSMS) and run:
+
 sql-- Create Database
 CREATE DATABASE PetrolPumpDB;
 GO
 
 USE PetrolPumpDB;
 GO
+
 Step 2: Create DispensingRecords Table
+
 sql-- Create DispensingRecords Table
+
 CREATE TABLE DispensingRecords (
     Id INT PRIMARY KEY IDENTITY(1,1),
     DispenserNo NVARCHAR(50) NOT NULL,
@@ -158,9 +162,11 @@ CREATE TABLE DispensingRecords (
     CONSTRAINT CK_Volume CHECK (Volume >= 0),
     CONSTRAINT CK_Amount CHECK (Amount >= 0)
 );
+
 GO
 
 -- Create Index for better query performance
+
 CREATE INDEX IX_DispensingRecords_TransactionDate 
 ON DispensingRecords(TransactionDate DESC);
 
