@@ -172,10 +172,8 @@ namespace PetrolPumpApp.Controllers
                     return NotFound();
                 }
 
-                // Generate PDF using helper
                 byte[] pdfBytes = Helpers.PdfHelper.GenerateRecordPdf(record);
 
-                // Create HTTP response with PDF
                 var response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK);
                 response.Content = new System.Net.Http.ByteArrayContent(pdfBytes);
                 response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/pdf");

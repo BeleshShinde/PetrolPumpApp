@@ -236,7 +236,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="modalBody">
-                    <!-- Content loaded dynamically -->
                 </div>
             </div>
         </div>
@@ -317,6 +316,7 @@
             let filteredRecords = allRecords.filter(record => {
                 // Filter by dispenser
                 if (dispenserFilter && record.DispenserNo.toLowerCase() !== dispenserFilter) {
+                    console.log("1");
                     return false;
                 }
 

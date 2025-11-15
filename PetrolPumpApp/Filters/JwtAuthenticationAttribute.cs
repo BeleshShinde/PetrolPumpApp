@@ -11,7 +11,6 @@ namespace PetrolPumpApp.Filters
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            // Check if Authorization header exists
             if (actionContext.Request.Headers.Authorization == null)
             {
                 actionContext.Response = actionContext.Request.CreateResponse(
@@ -20,7 +19,6 @@ namespace PetrolPumpApp.Filters
                 return;
             }
 
-            // Get the token from Authorization header
             string token = actionContext.Request.Headers.Authorization.Parameter;
 
             if (string.IsNullOrEmpty(token))
@@ -31,7 +29,6 @@ namespace PetrolPumpApp.Filters
                 return;
             }
 
-            // Validate the token
             var principal = JwtTokenHelper.ValidateToken(token);
 
             if (principal == null)
@@ -42,7 +39,6 @@ namespace PetrolPumpApp.Filters
                 return;
             }
 
-            // Set the current principal
             System.Threading.Thread.CurrentPrincipal = principal;
             if (System.Web.HttpContext.Current != null)
             {

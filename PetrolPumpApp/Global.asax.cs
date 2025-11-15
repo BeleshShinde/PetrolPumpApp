@@ -13,10 +13,9 @@ namespace PetrolPumpApp
     {
         protected void Application_Start()
         {
-            // Set database initializer
+            
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
 
-            // Initialize database - ignore errors if table already exists
             try
             {
                 using (var db = new ApplicationDbContext())
@@ -29,7 +28,6 @@ namespace PetrolPumpApp
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
-                // Ignore "object already exists" errors
                 if (ex.Message.Contains("already an object"))
                 {
                     System.Diagnostics.Debug.WriteLine("Database already exists - continuing...");

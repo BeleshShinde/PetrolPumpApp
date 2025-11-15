@@ -18,7 +18,6 @@ namespace PetrolPumpApp.Helpers
 
                 document.Open();
 
-                // Add logo/header section
                 Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 24, new BaseColor(102, 126, 234));
                 Paragraph header = new Paragraph("PETROL PUMP", headerFont);
                 header.Alignment = Element.ALIGN_CENTER;
@@ -30,23 +29,19 @@ namespace PetrolPumpApp.Helpers
                 subHeader.SpacingAfter = 30f;
                 document.Add(subHeader);
 
-                // Horizontal line
                 LineSeparator line = new LineSeparator(1f, 100f, new BaseColor(102, 126, 234), Element.ALIGN_CENTER, -2);
                 document.Add(new Chunk(line));
                 document.Add(new Paragraph(" "));
 
-                // Create table for record details
                 PdfPTable table = new PdfPTable(2);
                 table.WidthPercentage = 100;
                 table.SpacingBefore = 20f;
                 table.SpacingAfter = 20f;
                 table.SetWidths(new float[] { 40f, 60f });
 
-                // Fonts
                 Font labelFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11, BaseColor.BLACK);
                 Font valueFont = FontFactory.GetFont(FontFactory.HELVETICA, 11, new BaseColor(60, 60, 60));
 
-                // Add record details
                 AddTableRow(table, "Record ID", record.Id.ToString(), labelFont, valueFont);
                 AddTableRow(table, "Dispenser Number", record.DispenserNo ?? "N/A", labelFont, valueFont);
                 AddTableRow(table, "Quantity Dispensed", record.Volume.ToString("0.00") + " Liters", labelFont, valueFont);
@@ -58,11 +53,9 @@ namespace PetrolPumpApp.Helpers
 
                 document.Add(table);
 
-                // Add another line
                 document.Add(new Chunk(line));
                 document.Add(new Paragraph(" "));
 
-                // Footer section
                 PdfPTable footerTable = new PdfPTable(2);
                 footerTable.WidthPercentage = 100;
                 footerTable.SpacingBefore = 30f;
@@ -82,7 +75,6 @@ namespace PetrolPumpApp.Helpers
 
                 document.Add(footerTable);
 
-                // Watermark
                 Font watermarkFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.LIGHT_GRAY);
                 Paragraph watermark = new Paragraph("OFFICIAL RECORD - DO NOT TAMPER", watermarkFont);
                 watermark.Alignment = Element.ALIGN_CENTER;
@@ -98,7 +90,6 @@ namespace PetrolPumpApp.Helpers
 
         private static void AddTableRow(PdfPTable table, string label, string value, Font labelFont, Font valueFont)
         {
-            // Label cell (left column)
             PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
             labelCell.BackgroundColor = new BaseColor(245, 245, 245);
             labelCell.Padding = 10;
@@ -108,7 +99,6 @@ namespace PetrolPumpApp.Helpers
             labelCell.BorderColorBottom = new BaseColor(220, 220, 220);
             labelCell.VerticalAlignment = Element.ALIGN_MIDDLE;
 
-            // Value cell (right column)
             PdfPCell valueCell = new PdfPCell(new Phrase(value, valueFont));
             valueCell.BackgroundColor = BaseColor.WHITE;
             valueCell.Padding = 10;

@@ -130,7 +130,7 @@
             const loginBtn = document.getElementById('loginBtn');
             const alertContainer = document.getElementById('alertContainer');
 
-            // Clear previous alerts
+            // Clear previous alerts today 14-11-25
             alertContainer.innerHTML = '';
 
             // Disable button
@@ -138,7 +138,7 @@
             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Logging in...';
 
             try {
-                console.log('Attempting login...');
+                //console.log('Attempting login...');
 
                 const response = await fetch(`${API_BASE_URL}/account/login`, {
                     method: 'POST',
@@ -151,23 +151,20 @@
                     })
                 });
 
-                console.log('Response status:', response.status);
+                //console.log('Response status:', response.status);
 
                 const data = await response.json();
-                console.log('Response data:', data);
-                console.log('Token:', data.Token);
-                console.log('Token length:', data.Token ? data.Token.length : 0);
+                //console.log('Response data:', data);
+                //console.log('Token:', data.Token);
+                //console.log('Token length:', data.Token ? data.Token.length : 0);
 
                 if (data.Success) {
-                    // Store token and username
                     localStorage.setItem('authToken', data.Token);
                     localStorage.setItem('username', username);
 
-                    // Verify storage
                     const storedToken = localStorage.getItem('authToken');
                     console.log('Stored token length:', storedToken ? storedToken.length : 0);
 
-                    // Show success message
                     alertContainer.innerHTML = `
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <i class="fas fa-check-circle me-2"></i>${data.Message}
@@ -175,12 +172,10 @@
                         </div>
                     `;
 
-                    // Redirect after delay
                     setTimeout(() => {
                         window.location.href = '/Home/Listing';
                     }, 1000);
                 } else {
-                    // Show error
                     alertContainer.innerHTML = `
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <i class="fas fa-exclamation-circle me-2"></i>${data.Message}
@@ -191,6 +186,7 @@
                     loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Login';
                 }
             } catch (error) {
+                console.log("Stuck in catch");
                 console.error('Login error:', error);
                 alertContainer.innerHTML = `
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

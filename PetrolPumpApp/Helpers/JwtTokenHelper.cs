@@ -9,7 +9,6 @@ namespace PetrolPumpApp.Helpers
 {
     public static class JwtTokenHelper
     {
-        // HARDCODED FOR TESTING - Change these to match exactly
         private const string SecretKey = "MyVeryLongSecretKeyThatIsAtLeast32CharactersLongForHS256Algorithm12345678901234567890";
         private const string Issuer = "PetrolPumpApp";
         private const string Audience = "PetrolPumpAppUsers";

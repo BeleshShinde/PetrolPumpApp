@@ -6,7 +6,6 @@ namespace PetrolPumpApp.Models
     {
         public ApplicationDbContext() : base("DefaultConnection")
         {
-            // Set initializer to use migrations
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
         }
 

@@ -8,14 +8,10 @@ namespace PetrolPumpApp.Controllers
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
-        // Hardcoded credentials for testing (as per requirement)
         private const string ValidUsername = "admin";
         private const string ValidPassword = "admin123";
 
-        /// <summary>
-        /// Login endpoint - Validates credentials and returns JWT token
-        /// POST: api/account/login
-        /// </summary>
+        
         [HttpPost]
         [Route("login")]
         public IHttpActionResult Login([FromBody] LoginModel model)
@@ -48,10 +44,7 @@ namespace PetrolPumpApp.Controllers
             });
         }
 
-        /// <summary>
-        /// Test endpoint to verify authentication
-        /// GET: api/account/test
-        /// </summary>
+        
         [HttpGet]
         [Route("test")]
         public IHttpActionResult Test()
