@@ -113,7 +113,65 @@ Open `Web.config` in the project root and choose your connection string:
 2. Right-click on Solution → **"Restore NuGet Packages"**
 3. Wait for package restoration to complete
 
-### Step 4: Build the Solution
+### Step 4: Database Setup
+💾 Database Setup
+Option 1: Automatic Setup (Recommended - Easy)
+Entity Framework will automatically create the database for you!
+Just configure the connection string and run the application. Entity Framework Code-First will:
+
+✅ Create the database
+✅ Create all tables
+✅ Set up relationships
+✅ Create indexes
+
+Steps:
+
+Update connection string in Web.config (see below)
+Press F5 to run the application
+Done! Database is created automatically
+
+
+Option 2: Manual Database Setup (If you prefer manual control)
+Step 1: Create Database
+Open SQL Server Management Studio (SSMS) and run:
+sql-- Create Database
+CREATE DATABASE PetrolPumpDB;
+GO
+
+USE PetrolPumpDB;
+GO
+Step 2: Create DispensingRecords Table
+sql-- Create DispensingRecords Table
+CREATE TABLE DispensingRecords (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    DispenserNo NVARCHAR(50) NOT NULL,
+    NozzleNo NVARCHAR(50) NULL,
+    FuelGrade NVARCHAR(50) NULL,
+    Volume DECIMAL(18, 2) NOT NULL DEFAULT 0,
+    Amount DECIMAL(18, 2) NOT NULL DEFAULT 0,
+    PaymentMode NVARCHAR(50) NOT NULL,
+    TransactionDate DATETIME NOT NULL,
+    VehicleNumber NVARCHAR(100) NULL,
+    ImagePath NVARCHAR(500) NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+    
+    CONSTRAINT CK_Volume CHECK (Volume >= 0),
+    CONSTRAINT CK_Amount CHECK (Amount >= 0)
+);
+GO
+
+-- Create Index for better query performance
+CREATE INDEX IX_DispensingRecords_TransactionDate 
+ON DispensingRecords(TransactionDate DESC);
+
+CREATE INDEX IX_DispensingRecords_DispenserNo 
+ON DispensingRecords(DispenserNo);
+
+CREATE INDEX IX_DispensingRecords_FuelGrade 
+ON DispensingRecords(FuelGrade);
+GO
+
+### Step 5: Build the Solution
 
 ```bash
 # In Visual Studio:
@@ -122,7 +180,7 @@ Press Ctrl+Shift+B
 Build → Build Solution
 ```
 
-### Step 5: Run the Application
+### Step 6: Run the Application
 
 ```bash
 # Press F5 in Visual Studio
@@ -131,7 +189,7 @@ Build → Build Solution
 # Application will open at: https://localhost:44318
 ```
 
-### Step 6: Login
+### Step 7: Login
 
 **Default Credentials:**
 - Username: `admin`
