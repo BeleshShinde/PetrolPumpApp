@@ -136,16 +136,17 @@ Step 1: Create Database
 Open SQL Server Management Studio (SSMS) and run:
 
 sql-- Create Database
+```bash
 CREATE DATABASE PetrolPumpDB;
 GO
 
 USE PetrolPumpDB;
 GO
-
+```
 Step 2: Create DispensingRecords Table
 
 sql-- Create DispensingRecords Table
-
+```bash
 CREATE TABLE DispensingRecords (
     Id INT PRIMARY KEY IDENTITY(1,1),
     DispenserNo NVARCHAR(50) NOT NULL,
@@ -158,25 +159,26 @@ CREATE TABLE DispensingRecords (
     VehicleNumber NVARCHAR(100) NULL,
     ImagePath NVARCHAR(500) NULL,
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
-    
     CONSTRAINT CK_Volume CHECK (Volume >= 0),
     CONSTRAINT CK_Amount CHECK (Amount >= 0)
 );
 
 GO
-
+```
 -- Create Index for better query performance
-
+```bash
 CREATE INDEX IX_DispensingRecords_TransactionDate 
 ON DispensingRecords(TransactionDate DESC);
-
+```
+```bash
 CREATE INDEX IX_DispensingRecords_DispenserNo 
 ON DispensingRecords(DispenserNo);
-
+```
+```bash
 CREATE INDEX IX_DispensingRecords_FuelGrade 
 ON DispensingRecords(FuelGrade);
 GO
-
+```
 ### Step 5: Build the Solution
 
 ```bash
