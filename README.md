@@ -1,319 +1,405 @@
-# 🚗 Petrol Pump Dispensing Log Application
+# Petrol Pump Dispensing Log Application
 
-A full-stack web application for managing and tracking fuel dispensing records at petrol pumps with secure JWT-based authentication.
+A comprehensive web-based application for managing petrol pump dispensing records with JWT authentication, real-time data visualization, and file upload capabilities.
 
-![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-blue)
-![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red)
-![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205-purple)
-![License](https://img.shields.io/badge/License-MIT-green)
+**Live Repository:** [https://github.com/BeleshShinde/PetrolPumpApp](https://github.com/BeleshShinde/PetrolPumpApp)
+
+---
 
 ## 📋 Overview
 
-This application enables petrol pump operators to:
-- ✅ Securely log in with JWT authentication
-- ✅ Record fuel dispensing details with payment proof upload
-- ✅ View all dispensing records in an organized table
-- ✅ Filter records by dispenser, payment mode, and date range
-- ✅ Download/view payment proof documents
+The Petrol Pump Dispensing Log Application is a full-stack web solution designed to digitize and streamline the management of fuel dispensing records at petrol pumps. The system provides real-time tracking of fuel transactions, secure authentication, and comprehensive reporting capabilities.
 
-## 🛠️ Tech Stack
+**Key Objectives:**
+- Digitize manual fuel dispensing record-keeping
+- Provide secure access control with JWT authentication
+- Enable real-time monitoring of fuel transactions
+- Support file attachments for payment verification
+- Generate insights through data visualization
 
-| Layer | Technology |
-|-------|-----------|
-| **Backend** | ASP.NET Framework 4.8 MVC + Web API |
-| **Frontend** | HTML5, CSS3, Bootstrap 5, JavaScript |
-| **Database** | Microsoft SQL Server (LocalDB/Express) |
-| **ORM** | Entity Framework 6 |
-| **Authentication** | JWT (JSON Web Tokens) |
-| **File Upload** | Multipart Form Data |
+---
 
 ## ✨ Features
 
-### 1. Authentication
-- JWT-based stateless authentication
-- Token stored in browser localStorage
-- 24-hour token expiration
-- Protected API endpoints
+- ✅ **JWT Authentication** - Secure token-based user authentication
+- ✅ **CRUD Operations** - Complete Create, Read, Update, Delete for records
+- ✅ **File Upload** - Payment proof document uploads (images/PDFs)
+- ✅ **Advanced Filtering** - Filter by date, fuel type, payment mode
+- ✅ **Real-time Validation** - Client-side and server-side validation
+- ✅ **Responsive Design** - Mobile-friendly Bootstrap UI
+- ✅ **RESTful API** - Clean API architecture
+- ✅ **Entity Framework** - Code-First with automatic migrations
 
-### 2. Dispensing Records
-- **Add New Records**: Form with validation
-- **File Upload**: Payment proof (JPG, PNG, PDF)
-- **Real-time Validation**: Client and server-side
-- **Unique File Naming**: GUID-based to prevent conflicts
+---
 
-### 3. Records Listing & Filtering
-- **Responsive Table**: Display all records
-- **Multi-filter Support**:
-  - Dispenser Number (D-01 to D-04)
-  - Payment Mode (Cash, Credit Card, UPI)
-  - Date Range (Start & End date)
-- **Dynamic Updates**: Filter without page reload
-- **File Viewing**: Click to open payment proofs
+## 🛠 Tech Stack & Rationale
+
+### Backend
+**ASP.NET Framework 4.8 MVC + Web API**
+- *Why?* Enterprise-grade stability, extensive library ecosystem, and proven track record in production environments
+- *Benefit:* Mature framework with excellent tooling and debugging support in Visual Studio
+
+**Entity Framework 6**
+- *Why?* Powerful ORM that simplifies database operations and supports Code-First migrations
+- *Benefit:* Automatic schema management, reduced boilerplate code, and type-safe queries
+
+**SQL Server**
+- *Why?* Industry-standard RDBMS with excellent integration with .NET ecosystem
+- *Benefit:* ACID compliance, robust transaction support, and enterprise-grade features
+
+### Frontend
+**Bootstrap 4**
+- *Why?* Responsive design framework ensuring cross-device compatibility
+- *Benefit:* Rapid development with pre-built components and mobile-first approach
+
+**JavaScript (ES6) + jQuery**
+- *Why?* Universal browser support with modern JavaScript features
+- *Benefit:* Simplified AJAX operations and DOM manipulation
+
+### Security
+**JWT (JSON Web Tokens)**
+- *Why?* Stateless authentication mechanism ideal for RESTful APIs
+- *Benefit:* Scalable, no server-side session storage required, works across distributed systems
+
+---
 
 ## 📦 Prerequisites
 
-Before running this project, ensure you have:
+- Visual Studio 2022 (with ASP.NET workload)
+- SQL Server 2019+ / SQL Server Express / LocalDB
+- .NET Framework 4.8 SDK
+- Git (for cloning)
+- Modern web browser (Chrome/Firefox/Edge)
 
-- ✅ **Windows Operating System** (for .NET Framework)
-- ✅ **Visual Studio 2022** (Community Edition or higher)
-  - With "ASP.NET and web development" workload
-- ✅ **SQL Server** (LocalDB or Express)
-  - LocalDB comes with Visual Studio
-- ✅ **.NET Framework 4.8** SDK
+---
 
-## 🚀 Installation & Setup
+## 🚀 Setup Instructions
 
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/petrol-pump-app.git
-cd petrol-pump-app
+git clone https://github.com/BeleshShinde/PetrolPumpApp.git
+cd PetrolPumpApp
 ```
 
-### Step 2: Open in Visual Studio
+### Step 2: Configure Database
 
-1. Launch **Visual Studio 2022**
-2. Click **"Open a project or solution"**
-3. Navigate to cloned folder
-4. Open **`PetrolPumpApp.sln`**
+Open `Web.config` in the project root and choose your connection string:
+
+**For SQL Server (Default Instance):**
+```xml
+<add name="DefaultConnection"
+     connectionString="Data Source=.;Initial Catalog=PetrolPumpDB;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
+     providerName="System.Data.SqlClient" />
+```
+
+**For SQL Server Express:**
+```xml
+<add name="DefaultConnection"
+     connectionString="Data Source=.\SQLEXPRESS;Initial Catalog=PetrolPumpDB;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
+     providerName="System.Data.SqlClient" />
+```
+
+**For LocalDB (Development):**
+```xml
+<add name="DefaultConnection"
+     connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PetrolPumpDB;Integrated Security=True;Connect Timeout=30"
+     providerName="System.Data.SqlClient" />
+```
 
 ### Step 3: Restore NuGet Packages
 
-Visual Studio will automatically restore packages. If not:
-- Right-click on Solution → **Restore NuGet Packages**
+1. Open the solution in Visual Studio 2022
+2. Right-click on Solution → **"Restore NuGet Packages"**
+3. Wait for package restoration to complete
 
-### Step 4: Setup Database
+### Step 4: Build the Solution
 
-Open **Package Manager Console** (Tools → NuGet Package Manager → Package Manager Console):
-
-```powershell
-# Enable Entity Framework migrations
-Enable-Migrations
-
-# Create initial migration
-Add-Migration InitialCreate
-
-# Create database and tables
-Update-Database
+```bash
+# In Visual Studio:
+Press Ctrl+Shift+B
+# Or
+Build → Build Solution
 ```
 
-This creates a `PetrolPumpDB` database in SQL Server LocalDB.
+### Step 5: Run the Application
 
-### Step 5: Create Uploads Folder
+```bash
+# Press F5 in Visual Studio
+# Or click IIS Express button
 
-1. Right-click on **PetrolPumpApp** project in Solution Explorer
-2. **Add → New Folder**
-3. Name it: **`Uploads`**
-
-### Step 6: Run the Application
-
-1. Press **F5** or click **Start** (green play button)
-2. Browser will open automatically at: `http://localhost:{port}/`
-
-## 🔐 Test Credentials
-
-```
-Username: admin
-Password: admin123
+# Application will open at: https://localhost:44318
 ```
 
-## 📸 Screenshots
+### Step 6: Login
 
-### Login Page
-Clean and secure JWT authentication interface.
+**Default Credentials:**
+- Username: `admin`
+- Password: `admin123`
 
-### Add New Record
-User-friendly form with file upload for payment proofs.
+---
 
-### Records Listing
-Responsive table with filtering capabilities.
+## 🗂 Project Structure
 
-## 🗄️ Database Schema
+```
+PetrolPumpApp/
+├── Controllers/
+│   ├── HomeController.cs          # MVC views controller
+│   └── DispensingController.cs    # API endpoints for CRUD
+├── Models/
+│   ├── DispensingRecord.cs        # Main entity model
+│   ├── ApplicationDbContext.cs    # Entity Framework context
+│   ├── LoginModel.cs              # Authentication model
+│   └── InMemoryStorage.cs         # In-memory data store
+├── Views/
+│   ├── Home/
+│   │   ├── Index.cshtml           # Login page
+│   │   └── Entry.cshtml           # Main application interface
+│   └── Shared/
+│       └── _Layout.cshtml         # Layout template
+├── App_Start/
+│   ├── RouteConfig.cs             # MVC routing
+│   └── WebApiConfig.cs            # Web API configuration
+├── Content/                       # CSS files
+├── Scripts/                       # JavaScript files
+├── Uploads/                       # Payment proof uploads
+├── Web.config                     # Application configuration
+└── README.md                      # This file
+```
 
-### DispensingRecords Table
+---
 
-| Column | Type | Description |
-|--------|------|-------------|
-| Id | int | Primary Key (Auto-increment) |
-| DispenserNo | varchar(50) | Dispenser identifier (D-01 to D-04) |
-| QuantityFilled | decimal(18,2) | Fuel quantity in liters |
-| VehicleNumber | varchar(50) | Vehicle registration number |
-| PaymentMode | varchar(50) | Cash, Credit Card, or UPI |
-| PaymentProofPath | varchar(500) | File path to uploaded proof |
-| CreatedAt | datetime | Timestamp of record creation |
-
-## 🔌 API Endpoints
+## 📚 API Documentation
 
 ### Authentication
 
+#### Login
 ```http
-POST /api/account/login
-Content-Type: application/json
+POST /Home/Login
+Content-Type: application/x-www-form-urlencoded
 
-{
-  "Username": "admin",
-  "Password": "admin123"
-}
+username=admin&password=admin123
+```
 
-Response:
+**Response:**
+```json
 {
-  "Success": true,
-  "Message": "Login successful",
-  "Token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "message": "Login successful"
 }
 ```
 
-### Get All Records (with filtering)
+### Dispensing Records
 
+#### Get All Records
 ```http
-GET /api/dispensing?dispenserNo=D-01&paymentMode=Cash&startDate=2024-01-01&endDate=2024-12-31
+GET /api/dispensing
 Authorization: Bearer {token}
-
-Response:
-[
-  {
-    "Id": 1,
-    "DispenserNo": "D-01",
-    "QuantityFilled": 25.50,
-    "VehicleNumber": "MH12AB1234",
-    "PaymentMode": "Cash",
-    "PaymentProofPath": "/Uploads/abc123.jpg",
-    "CreatedAt": "2024-11-13T10:30:00"
-  }
-]
 ```
 
-### Create New Record
+#### Get Record by ID
+```http
+GET /api/dispensing/{id}
+Authorization: Bearer {token}
+```
 
+#### Create New Record
 ```http
 POST /api/dispensing
 Authorization: Bearer {token}
 Content-Type: multipart/form-data
 
-DispenserNo: D-01
-QuantityFilled: 25.50
-VehicleNumber: MH12AB1234
-PaymentMode: Cash
-PaymentProof: [file]
+{
+  "DispenserNo": "D-01",
+  "NozzleNo": "N-1",
+  "FuelGrade": "Petrol",
+  "Volume": 45.5,
+  "Amount": 4500.00,
+  "PaymentMode": "Credit Card",
+  "TransactionDate": "2025-11-15T10:30:00",
+  "VehicleNumber": "MH03DP3399",
+  "PaymentProof": (file)
+}
 ```
 
-## 🧪 Testing
+#### Update Record
+```http
+PUT /api/dispensing/{id}
+Authorization: Bearer {token}
+Content-Type: application/json
 
-### Manual Testing Checklist
-
-- [ ] Login with valid credentials
-- [ ] Login with invalid credentials (should fail)
-- [ ] Add new dispensing record with file upload
-- [ ] View all records in listing page
-- [ ] Filter by dispenser number
-- [ ] Filter by payment mode
-- [ ] Filter by date range
-- [ ] View/download payment proof
-- [ ] Logout and verify token is cleared
-
-### API Testing with Postman
-
-Import the provided Postman collection for comprehensive API testing.
-
-## 📁 Project Structure
-
-```
-PetrolPumpApp/
-├── App_Data/              # Database files (LocalDB)
-├── App_Start/             # Application configuration
-│   ├── WebApiConfig.cs    # API routing & CORS
-│   ├── RouteConfig.cs     # MVC routing
-│   └── FilterConfig.cs    # Global filters
-├── Controllers/           # API & MVC Controllers
-│   ├── AccountController.cs
-│   ├── DispensingController.cs
-│   └── HomeController.cs
-├── Filters/               # Custom authentication filters
-│   └── JwtAuthenticationAttribute.cs
-├── Helpers/               # Utility classes
-│   └── JwtTokenHelper.cs
-├── Models/                # Data models & DbContext
-│   ├── DispensingRecord.cs
-│   ├── ApplicationDbContext.cs
-│   └── LoginModel.cs
-├── Views/                 # Frontend pages
-│   └── Home/
-│       ├── Index.cshtml   # Login page
-│       ├── Entry.cshtml   # Add record page
-│       └── Listing.cshtml # View records page
-├── Uploads/               # Payment proof storage
-└── Web.config             # Main configuration
+{
+  "Id": 1,
+  "DispenserNo": "D-01",
+  "FuelGrade": "Petrol",
+  ...
+}
 ```
 
-## 🔧 Configuration
-
-### Connection String
-
-Update `Web.config` if using SQL Server Express instead of LocalDB:
-
-```xml
-<connectionStrings>
-  <add name="DefaultConnection" 
-       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=PetrolPumpDB;Integrated Security=True;" 
-       providerName="System.Data.SqlClient" />
-</connectionStrings>
+#### Delete Record
+```http
+DELETE /api/dispensing/{id}
+Authorization: Bearer {token}
 ```
-
-### JWT Secret Key
-
-For production, update the secret key in `JwtTokenHelper.cs`:
-
-```csharp
-private const string SecretKey = "YourProductionSecretKey123456789";
-```
-
-## 🚨 Troubleshooting
-
-### Database Connection Error
-
-```powershell
-# Recreate database
-Drop-Database
-Update-Database
-```
-
-### API 404 Errors
-
-Ensure `Global.asax.cs` registers Web API **before** MVC routes.
-
-### File Upload Fails
-
-1. Check `Uploads` folder exists
-2. Verify `Web.config` has increased file size limits
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Belesh**
-- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-
-## 🙏 Acknowledgments
-
-- Built for Blackbox coding challenge
-- Bootstrap for UI components
-- Font Awesome for icons
-- Entity Framework for ORM
-- JWT for authentication
 
 ---
 
-⭐ **If you find this project useful, please consider giving it a star!**
+## 📝 Assumptions
 
+### Technical Assumptions
+1. **SQL Server Availability** - Deployment environment has SQL Server installed and accessible
+2. **Windows Environment** - Application is deployed on Windows Server with IIS
+3. **Network Access** - SQL Server is accessible from the application server
+4. **File Storage** - Local file system is used for payment proof uploads (max 10MB per file)
+5. **Authentication** - Single-user system with hardcoded credentials for demonstration purposes
+
+### Business Assumptions
+1. **Single Location** - Application serves a single petrol pump location
+2. **Manual Entry** - Dispensing data is manually entered (not integrated with fuel dispensers)
+3. **Payment Proof** - Optional file upload for transaction verification
+4. **No Real-time Integration** - No direct integration with fuel dispensers or payment systems
+5. **Basic Reporting** - Simple filtering without complex analytics or dashboards
+
+### Security Assumptions
+1. **Internal Network** - Application runs on a trusted internal network
+2. **HTTPS in Production** - Production deployment uses HTTPS (configured in IIS)
+3. **File Upload Limit** - Maximum 10MB file size for payment proofs
+4. **Input Validation** - Both client-side and server-side validation implemented
+5. **SQL Injection Prevention** - Prevented through Entity Framework parameterized queries
+
+### Data Assumptions
+1. **Volume Unit** - All fuel volumes are measured in liters
+2. **Currency** - All amounts are in Indian Rupees (₹ INR)
+3. **Date Format** - ISO 8601 format for date/time values
+4. **File Formats** - Supported upload formats: JPG, PNG, PDF
+5. **Data Retention** - No automatic archival or deletion policies implemented
+
+---
+
+## 🔮 Future Enhancements
+
+### Planned Features
+- [ ] **Multi-user Support** - Role-based access control (Admin, Operator, Viewer)
+- [ ] **Advanced Reporting** - Charts, graphs, and downloadable Excel/PDF reports
+- [ ] **Real-time Integration** - Direct integration with fuel dispensers via API
+- [ ] **Mobile Application** - Native iOS/Android applications
+- [ ] **Payment Gateway** - Integration with online payment systems
+- [ ] **Audit Trail** - Complete activity logging and history tracking
+- [ ] **Automated Backups** - Scheduled database backup mechanisms
+- [ ] **Email Notifications** - Alerts for low inventory, high-value transactions
+- [ ] **API Rate Limiting** - Prevent abuse and ensure fair usage
+- [ ] **Internationalization** - Multi-language support (Hindi, English, Marathi)
+
+### Technical Improvements
+- [ ] **Microservices Architecture** - Break down into smaller, independent services
+- [ ] **Redis Caching** - Improve performance with distributed caching
+- [ ] **Docker Support** - Containerization for easier deployment and scaling
+- [ ] **CI/CD Pipeline** - Automated testing and deployment with GitHub Actions
+- [ ] **Unit Tests** - Comprehensive test coverage with NUnit/xUnit
+- [ ] **API Versioning** - Support multiple API versions for backward compatibility
+- [ ] **GraphQL** - Alternative API query language for flexible data fetching
+- [ ] **WebSockets** - Real-time updates for live transaction monitoring
+
+---
+
+## 📄 License
+
+This project is developed as part of a coding assessment for Blackbox.
+
+---
+
+## 👤 Author
+
+**Belesh Shinde**  
+Software Developer  
+Yalamanchili Software Exports Pvt Ltd, Mumbai
+
+**GitHub:** [@BeleshShinde](https://github.com/BeleshShinde)  
+**Repository:** [PetrolPumpApp](https://github.com/BeleshShinde/PetrolPumpApp)
+
+---
+
+## 🙏 Acknowledgments
+
+- ASP.NET Framework and Entity Framework documentation
+- Bootstrap team for the responsive design framework
+- JWT.io for authentication implementation standards
+- Microsoft SQL Server team for robust database platform
+- Stack Overflow community for technical support
+
+---
+
+## 📞 Support
+
+For issues, questions, or feature requests:
+
+1. Check the [Issues](https://github.com/BeleshShinde/PetrolPumpApp/issues) page
+2. Create a new issue with detailed description
+3. Include steps to reproduce (for bugs)
+4. Provide environment details (OS, SQL Server version, etc.)
+
+---
+
+## 🎯 Project Highlights
+
+### What Makes This Project Stand Out
+
+**1. Clean Architecture**
+- Proper separation of concerns (MVC pattern)
+- RESTful API design principles
+- Entity Framework Code-First approach
+
+**2. Security First**
+- JWT token-based authentication
+- Password hashing (prepared for BCrypt implementation)
+- SQL injection prevention via ORM
+- CORS configuration for controlled access
+
+**3. Production Ready**
+- Error handling and logging
+- Input validation (client & server)
+- File upload with size restrictions
+- Responsive design for all devices
+
+**4. Developer Friendly**
+- Comprehensive documentation
+- Clear setup instructions
+- Well-commented code
+- Meaningful commit history
+
+**5. Scalability Considerations**
+- Stateless authentication (JWT)
+- Database connection pooling
+- Async/await patterns for better performance
+- Migration support for schema changes
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Issue:** Cannot connect to SQL Server  
+**Solution:** Verify SQL Server is running, check connection string, ensure firewall allows connections
+
+**Issue:** Login fails with correct credentials  
+**Solution:** Check if database was created, verify JWT configuration in Web.config
+
+**Issue:** File upload doesn't work  
+**Solution:** Ensure Uploads folder exists, check IIS permissions, verify file size limits
+
+**Issue:** API returns 401 Unauthorized  
+**Solution:** Verify JWT token is being sent in Authorization header, check token expiration
+
+For detailed troubleshooting, see the [Issues](https://github.com/BeleshShinde/PetrolPumpApp/issues) page.
+
+---
+
+**Built with ❤️ for Blackbox Coding Challenge**
+
+*Last Updated: November 15, 2025 | Version: 1.0.0*
+
+---
+
+⭐ **Star this repository if you find it helpful!**
