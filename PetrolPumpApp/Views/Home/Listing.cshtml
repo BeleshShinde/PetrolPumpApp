@@ -1,0 +1,555 @@
+@{
+    ViewBag.Title = "Dispensing Records - Petrol Pump";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container-custom {
+            margin-top: 30px;
+            max-width: 1400px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+        }
+
+        .filter-card {
+            background-color: #fff;
+        }
+
+        .table-responsive {
+            border-radius: 8px;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+            .table thead {
+                background-color: #f8f9fa;
+            }
+
+                .table thead th {
+                    border-bottom: 2px solid #dee2e6;
+                    font-weight: 600;
+                    color: #495057;
+                }
+
+        .badge {
+            padding: 6px 12px;
+            font-weight: 500;
+        }
+
+        .no-records {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+            .no-records i {
+                font-size: 60px;
+                margin-bottom: 20px;
+                color: #dee2e6;
+            }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+            .stats-card h3 {
+                font-size: 32px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .stats-card p {
+                margin-bottom: 0;
+                opacity: 0.9;
+            }
+
+        .btn-view {
+            padding: 4px 12px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">
+                <i class="fas fa-gas-pump me-2"></i>Petrol Pump - Dispensing Records
+            </span>
+            <div>
+                <span class="text-white me-3">
+                    <i class="fas fa-user me-2"></i><span id="usernameDisplay"></span>
+                </span>
+                <a href="/Home/Entry" class="btn btn-light btn-sm me-2">
+                    <i class="fas fa-plus me-1"></i>Add New Record
+                </a>
+                <button class="btn btn-outline-light btn-sm" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-custom">
+        <!-- Statistics Card -->
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h3 id="totalRecords">0</h3>
+                    <p><i class="fas fa-database me-2"></i>Total Records</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Card -->
+        <div class="card filter-card">
+            <div class="card-body">
+                <h5 class="mb-3"><i class="fas fa-filter me-2"></i>Filter Records</h5>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="filterDispenser" class="form-label">Dispenser No</label>
+                        <select class="form-select" id="filterDispenser">
+                            <option value="">All Dispensers</option>
+                            <option value="D-01">D-01</option>
+                            <option value="D-02">D-02</option>
+                            <option value="D-03">D-03</option>
+                            <option value="D-04">D-04</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterPaymentMode" class="form-label">Payment Mode</label>
+                        <select class="form-select" id="filterPaymentMode">
+                            <option value="">All Payment Modes</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="UPI">UPI</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="filterStartDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="filterStartDate">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="filterEndDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="filterEndDate">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="btn btn-outline-secondary btn-sm w-100" onclick="clearFilters()">
+                            <i class="fas fa-times me-1"></i>Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Records Table -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-list me-2"></i>All Records</h5>
+            </div>
+            <div class="card-body p-0">
+                <div id="loadingSpinner" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading records...</p>
+                </div>
+
+                <div id="recordsTableContainer" style="display: none;">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Dispenser No</th>
+                                    <th>Quantity (L)</th>
+                                    <th>Vehicle Number</th>
+                                    <th>Payment Mode</th>
+                                    <th>Timestamp</th>
+                                    <th>Payment Proof</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recordsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="noRecordsMessage" class="no-records" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h5>No Records Found</h5>
+                    <p>Try adjusting your filters or add a new record</p>
+                    <a href="/Home/Entry" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus me-2"></i>Add First Record
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Record Modal -->
+    <div class="modal fade" id="viewRecordModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Record Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Content loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_BASE_URL = '/api';
+        let allRecords = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('authToken');
+            const username = localStorage.getItem('username');
+
+            if (!token) {
+                alert('Session expired. Please login again.');
+                window.location.href = '/';
+                return;
+            }
+
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            if (usernameDisplay && username) {
+                usernameDisplay.textContent = username;
+            }
+
+            // Add event listeners for DYNAMIC filtering
+            document.getElementById('filterDispenser').addEventListener('change', applyFilters);
+            document.getElementById('filterPaymentMode').addEventListener('change', applyFilters);
+            document.getElementById('filterStartDate').addEventListener('change', applyFilters);
+            document.getElementById('filterEndDate').addEventListener('change', applyFilters);
+
+            loadRecords();
+        });
+
+        function loadRecords() {
+            const token = localStorage.getItem('authToken');
+
+            if (!token) {
+                alert('Session expired. Please login again.');
+                window.location.href = '/';
+                return;
+            }
+
+            fetch(API_BASE_URL + '/dispensing?page=1&pageSize=1000', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.status === 401) {
+                        alert('Session expired. Please login again.');
+                        localStorage.clear();
+                        window.location.href = '/';
+                        return;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.Success) {
+                        allRecords = data.Records || [];
+                        updateTotalRecords(data.TotalRecords || 0);
+                        applyFilters(); // Apply filters to display
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading records:', error);
+                });
+        }
+
+        function applyFilters() {
+            const dispenserFilter = document.getElementById('filterDispenser').value.toLowerCase();
+            const paymentFilter = document.getElementById('filterPaymentMode').value.toLowerCase();
+            const startDate = document.getElementById('filterStartDate').value;
+            const endDate = document.getElementById('filterEndDate').value;
+
+            let filteredRecords = allRecords.filter(record => {
+                // Filter by dispenser
+                if (dispenserFilter && record.DispenserNo.toLowerCase() !== dispenserFilter) {
+                    return false;
+                }
+
+                // Filter by payment mode
+                if (paymentFilter && record.PaymentMode.toLowerCase() !== paymentFilter) {
+                    return false;
+                }
+
+                // Filter by date range
+                if (startDate || endDate) {
+                    const recordDate = new Date(record.TransactionDate);
+
+                    if (startDate) {
+                        const start = new Date(startDate);
+                        start.setHours(0, 0, 0, 0);
+                        if (recordDate < start) return false;
+                    }
+
+                    if (endDate) {
+                        const end = new Date(endDate);
+                        end.setHours(23, 59, 59, 999);
+                        if (recordDate > end) return false;
+                    }
+                }
+
+                return true;
+            });
+
+            displayRecords(filteredRecords);
+        }
+
+        function displayRecords(records) {
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const tableContainer = document.getElementById('recordsTableContainer');
+            const noRecordsMessage = document.getElementById('noRecordsMessage');
+            const tbody = document.getElementById('recordsTableBody');
+
+            loadingSpinner.style.display = 'none';
+
+            if (!records || records.length === 0) {
+                tableContainer.style.display = 'none';
+                noRecordsMessage.style.display = 'block';
+                return;
+            }
+
+            tableContainer.style.display = 'block';
+            noRecordsMessage.style.display = 'none';
+
+            let html = '';
+            for (let i = 0; i < records.length; i++) {
+                const record = records[i];
+                html += '<tr>';
+                html += '<td>' + (record.DispenserNo || '-') + '</td>';
+                html += '<td>' + parseFloat(record.Volume || 0).toFixed(2) + ' L</td>';
+                html += '<td>' + (record.VehicleNumber || '-') + '</td>';
+                html += '<td><span class="badge bg-info">' + (record.PaymentMode || '-') + '</span></td>';
+                html += '<td>' + formatTimestamp(record.TransactionDate) + '</td>';
+                html += '<td>';
+                if (record.ImagePath) {
+                    html += '<a href="' + record.ImagePath + '" target="_blank" class="btn btn-sm btn-success">';
+                    html += '<i class="fas fa-file-image"></i> View';
+                    html += '</a>';
+                } else {
+                    html += '<span class="text-muted">No file</span>';
+                }
+                html += '</td>';
+                html += '<td>';
+                html += '<button class="btn btn-sm btn-primary btn-view" onclick="viewRecord(' + record.Id + ')">';
+                html += '<i class="fas fa-eye"></i> View';
+                html += '</button>';
+                html += '</td>';
+                html += '</tr>';
+            }
+
+            tbody.innerHTML = html;
+        }
+
+        function updateTotalRecords(total) {
+            const element = document.getElementById('totalRecords');
+            if (element) {
+                element.textContent = total;
+            }
+        }
+
+        function formatTimestamp(dateString) {
+            if (!dateString) return '-';
+            try {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                return day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        function viewRecord(id) {
+            const token = localStorage.getItem('authToken');
+
+            fetch(API_BASE_URL + '/dispensing/' + id, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Success) {
+                        showRecordModal(data.Record);
+                    }
+                });
+        }
+
+        function showRecordModal(record) {
+            let imageHtml = '';
+            if (record.ImagePath) {
+                const ext = record.ImagePath.toLowerCase();
+                if (ext.endsWith('.pdf')) {
+                    imageHtml = '<a href="' + record.ImagePath + '" target="_blank" class="btn btn-primary"><i class="fas fa-file-pdf"></i> View PDF</a>';
+                } else {
+                    imageHtml = '<img src="' + record.ImagePath + '" class="img-fluid rounded shadow-sm" alt="Payment Proof" style="max-height: 400px;">';
+                }
+            } else {
+                imageHtml = '<p class="text-muted"><i class="fas fa-info-circle me-2"></i>No payment proof uploaded</p>';
+            }
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <p><strong><i class="fas fa-gas-pump me-2 text-primary"></i>Dispenser No:</strong> ${record.DispenserNo}</p>
+                            <p><strong><i class="fas fa-tint me-2 text-info"></i>Quantity:</strong> ${record.Volume} L</p>
+                            <p><strong><i class="fas fa-car me-2 text-success"></i>Vehicle Number:</strong> ${record.VehicleNumber}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <p><strong><i class="fas fa-credit-card me-2 text-warning"></i>Payment Mode:</strong> ${record.PaymentMode}</p>
+                            <p><strong><i class="fas fa-clock me-2 text-danger"></i>Timestamp:</strong> ${formatTimestamp(record.TransactionDate)}</p>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <h6><i class="fas fa-image me-2"></i>Payment Proof:</h6>
+                            <div class="text-center">
+                                ${imageHtml}
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success btn-lg" onclick="downloadRecordPdf(${record.Id})">
+                                    <i class="fas fa-download me-2"></i>Download Record as PDF
+                                </button>
+                            </div>
+                            <p class="text-muted text-center mt-2 mb-0" style="font-size: 12px;">
+                                <i class="fas fa-info-circle me-1"></i>Download a professional PDF copy of this record
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+            const modal = new bootstrap.Modal(document.getElementById('viewRecordModal'));
+            modal.show();
+        }
+
+        function downloadRecordPdf(recordId) {
+            const token = localStorage.getItem('authToken');
+
+            if (!token) {
+                alert('Session expired. Please login again.');
+                window.location.href = '/';
+                return;
+            }
+
+            // Show loading indicator
+            const btn = event.target.closest('button');
+            const originalHtml = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating PDF...';
+
+            const downloadUrl = API_BASE_URL + '/dispensing/' + recordId + '/download';
+
+            fetch(downloadUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to generate PDF');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Create download link
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'PetrolPump_Record_' + recordId + '_' + new Date().getTime() + '.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    // Reset button
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+
+                    // Show success message
+                    alert('PDF downloaded successfully!');
+                })
+                .catch(error => {
+                    console.error('Download error:', error);
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                    alert('Failed to download PDF. Please try again.');
+                });
+        }
+
+        function clearFilters() {
+            document.getElementById('filterDispenser').value = '';
+            document.getElementById('filterPaymentMode').value = '';
+            document.getElementById('filterStartDate').value = '';
+            document.getElementById('filterEndDate').value = '';
+            applyFilters();
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

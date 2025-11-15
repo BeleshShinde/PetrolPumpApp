@@ -1,0 +1,284 @@
+﻿# Petrol Pump Dispensing Log Application
+
+A comprehensive web-based application for managing petrol pump dispensing records with JWT authentication, real-time data visualization, and file upload capabilities.
+
+---
+
+## 📋 Overview
+
+The Petrol Pump Dispensing Log Application is a full-stack web solution designed to digitize and streamline the management of fuel dispensing records at petrol pumps. The system provides real-time tracking of fuel transactions, secure authentication, and comprehensive reporting capabilities.
+
+**Live Demo:** [Add deployment URL here]
+
+---
+
+## ✨ Features
+
+- ✅ **JWT Authentication** - Secure token-based user authentication
+- ✅ **CRUD Operations** - Complete Create, Read, Update, Delete for records
+- ✅ **File Upload** - Payment proof document uploads (images/PDFs)
+- ✅ **Advanced Filtering** - Filter by date, fuel type, payment mode
+- ✅ **Real-time Validation** - Client-side and server-side validation
+- ✅ **Responsive Design** - Mobile-friendly Bootstrap UI
+- ✅ **RESTful API** - Clean API architecture
+- ✅ **Entity Framework** - Code-First with automatic migrations
+
+---
+
+## 🛠 Tech Stack & Rationale
+
+### Backend
+**ASP.NET Framework 4.8 MVC + Web API**
+- *Why?* Enterprise-grade stability, extensive library ecosystem, and proven track record in production environments
+- *Benefit:* Mature framework with excellent tooling and debugging support
+
+**Entity Framework 6**
+- *Why?* Powerful ORM that simplifies database operations and supports Code-First migrations
+- *Benefit:* Automatic schema management, reduced boilerplate code, and type-safe queries
+
+**SQL Server**
+- *Why?* Industry-standard RDBMS with excellent integration with .NET ecosystem
+- *Benefit:* ACID compliance, robust transaction support, and enterprise features
+
+### Frontend
+**Bootstrap 4**
+- *Why?* Responsive design framework ensuring cross-device compatibility
+- *Benefit:* Rapid development with pre-built components and mobile-first approach
+
+**JavaScript (ES6) + jQuery**
+- *Why?* Universal browser support with modern JavaScript features
+- *Benefit:* Simplified AJAX operations and DOM manipulation
+
+### Security
+**JWT (JSON Web Tokens)**
+- *Why?* Stateless authentication mechanism ideal for RESTful APIs
+- *Benefit:* Scalable, no server-side session storage required, works across distributed systems
+
+---
+
+## 📦 Prerequisites
+
+- Visual Studio 2022 (with ASP.NET workload)
+- SQL Server 2019+ / SQL Server Express / LocalDB
+- .NET Framework 4.8 SDK
+- Git (for cloning)
+- Modern web browser (Chrome/Firefox/Edge)
+
+---
+
+## 🚀 Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/PetrolPumpApp.git
+cd PetrolPumpApp
+```
+
+### 2. Configure Database
+
+Open `Web.config` and choose your connection string:
+
+**For SQL Server (Default):**
+```xml
+<add name="DefaultConnection"
+     connectionString="Data Source=.;Initial Catalog=PetrolPumpDB;Integrated Security=True;MultipleActiveResultSets=True"
+     providerName="System.Data.SqlClient" />
+```
+
+**For SQL Server Express:**
+```xml
+<add name="DefaultConnection"
+     connectionString="Data Source=.\SQLEXPRESS;Initial Catalog=PetrolPumpDB;Integrated Security=True;MultipleActiveResultSets=True"
+     providerName="System.Data.SqlClient" />
+```
+
+**For LocalDB (Development):**
+```xml
+<add name="DefaultConnection"
+     connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PetrolPumpDB;Integrated Security=True;Connect Timeout=30"
+     providerName="System.Data.SqlClient" />
+```
+
+### 3. Restore NuGet Packages
+
+```bash
+# In Visual Studio:
+Right-click Solution → Restore NuGet Packages
+
+# Or via Package Manager Console:
+Update-Package -reinstall
+```
+
+### 4. Build the Solution
+
+```bash
+# In Visual Studio:
+Press Ctrl+Shift+B
+# Or
+Build → Build Solution
+```
+
+### 5. Run the Application
+
+```bash
+# Press F5 in Visual Studio
+# Or click IIS Express button
+
+# Application will open at: https://localhost:44318
+```
+
+### 6. Login
+
+**Default Credentials:**
+- Username: `admin`
+- Password: `admin123`
+
+---
+
+## 🗂 Project Structure
+
+```
+PetrolPumpApp/
+├── Controllers/
+│   ├── HomeController.cs          # MVC views
+│   └── DispensingController.cs    # API endpoints
+├── Models/
+│   ├── DispensingRecord.cs        # Entity model
+│   ├── ApplicationDbContext.cs    # EF context
+│   └── LoginModel.cs              # Auth model
+├── Views/
+│   ├── Home/
+│   │   ├── Index.cshtml           # Login page
+│   │   └── Entry.cshtml           # Main app
+│   └── Shared/
+│       └── _Layout.cshtml         
+├── App_Start/
+│   ├── RouteConfig.cs
+│   └── WebApiConfig.cs
+├── Uploads/                       # Payment proofs
+├── Web.config                     # Configuration
+└── README.md
+```
+
+---
+
+## 📚 API Documentation
+
+### Authentication
+
+**POST** `/Home/Login`
+```json
+Request:
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+Response:
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "message": "Login successful"
+}
+```
+
+### Dispensing Records
+
+**GET** `/api/dispensing` - Get all records  
+**GET** `/api/dispensing/{id}` - Get record by ID  
+**POST** `/api/dispensing` - Create new record  
+**PUT** `/api/dispensing/{id}` - Update record  
+**DELETE** `/api/dispensing/{id}` - Delete record  
+
+All endpoints require: `Authorization: Bearer {token}`
+
+---
+
+## 📝 Assumptions
+
+### Technical
+1. **SQL Server Availability** - Deployment environment has SQL Server installed
+2. **Windows Environment** - Deployed on Windows Server with IIS
+3. **File Storage** - Local file system for payment proof uploads (max 10MB)
+4. **Single Database** - No distributed database or sharding required
+5. **Network Security** - Application runs on trusted internal network
+
+### Business
+1. **Single Location** - Application serves one petrol pump location
+2. **Manual Entry** - Data is manually entered (not integrated with dispensers)
+3. **Payment Proof** - Optional file upload for verification
+4. **Basic Authentication** - Hardcoded admin credentials for demonstration
+5. **No Real-time Integration** - No direct dispenser or payment gateway integration
+
+### Security
+1. **HTTPS in Production** - Configured at IIS level
+2. **Input Validation** - Both client and server-side
+3. **SQL Injection Prevention** - Via Entity Framework parameterization
+4. **File Upload Restrictions** - Limited to JPG, PNG, PDF formats
+5. **CORS** - Enabled for API accessibility (configure for production)
+
+### Data
+1. **Volume Unit** - All fuel volumes in liters
+2. **Currency** - Amounts in INR (₹)
+3. **Date Format** - ISO 8601 standard
+4. **No Auto-Archive** - Manual data management
+5. **Audit Trail** - Basic created/updated timestamps only
+
+---
+
+## 🔮 Future Enhancements
+
+- [ ] Multi-user support with role-based access control
+- [ ] Advanced reporting with charts and analytics
+- [ ] Real-time integration with fuel dispensers
+- [ ] Mobile applications (iOS/Android)
+- [ ] Payment gateway integration
+- [ ] Email notifications
+- [ ] Automated backups
+- [ ] API rate limiting
+- [ ] Unit test coverage
+- [ ] Docker containerization
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run in Visual Studio
+# Test Explorer → Run All Tests
+
+# Or via command line:
+vstest.console.exe PetrolPumpApp.Tests.dll
+```
+
+---
+
+## 📄 License
+
+This project is developed as part of a coding assessment.
+
+---
+
+## 👤 Author
+
+**Belesh Shinde**  
+Software Developer | Yalamanchili Software Exports Pvt Ltd, Mumbai
+
+📧 Email: [your.email@example.com](mailto:your.email@example.com)  
+💼 LinkedIn: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)  
+🐙 GitHub: [@yourusername](https://github.com/yourusername)
+
+---
+
+## 🙏 Acknowledgments
+
+- ASP.NET Framework & Entity Framework documentation
+- Bootstrap team for responsive framework
+- JWT.io for authentication standards
+
+---
+
+**Built with ❤️ for Blackbox Coding Challenge**
+
+*Last Updated: November 15, 2025 | Version: 1.0.0*

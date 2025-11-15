@@ -1,0 +1,147 @@
+@{
+    ViewBag.Title = "Add New Record";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-gas-pump me-2"></i>Add New Dispensing Record
+        </h2>
+
+        <form id="entryForm">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Dispenser No *</label>
+                    <select class="form-select" name="DispenserNo" required>
+                        <option value="">Select Dispenser</option>
+                        <option value="D-01">D-01</option>
+                        <option value="D-02">D-02</option>
+                        <option value="D-03">D-03</option>
+                        <option value="D-04">D-04</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Quantity Filled (Liters) *</label>
+                    <input type="number" step="0.01" class="form-control" name="QuantityFilled" placeholder="10.5" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Vehicle Number *</label>
+                    <input type="text" class="form-control" name="VehicleNumber" placeholder="MH01AB1234" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Payment Mode *</label>
+                    <select class="form-select" name="PaymentMode" required>
+                        <option value="">Select Payment Mode</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="UPI">UPI</option>
+                    </select>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label class="form-label">Payment Proof (Optional)</label>
+                    <input type="file" class="form-control" name="paymentProof" accept=".jpg,.jpeg,.png,.pdf">
+                    <small class="text-muted">Upload payment receipt (optional)</small>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save me-2"></i>Save Record
+                </button>
+                <a href="/Home/Listing" class="btn btn-secondary btn-lg ms-2">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+        let isSubmitting = false;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('entryForm');
+            form.onsubmit = handleSubmit;
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            if (isSubmitting) return false;
+            isSubmitting = true;
+
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Session expired');
+                window.location.href = '/';
+                return false;
+            }
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const btn = form.querySelector('button[type="submit"]');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+            fetch(API_BASE_URL + '/dispensing', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Success) {
+                        alert('Record saved successfully!');
+                        window.location.href = '/Home/Listing';
+                    } else {
+                        alert('Error: ' + data.Message);
+                        isSubmitting = false;
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-save me-2"></i>Save Record';
+                    }
+                })
+                .catch(error => {
+                    alert('Failed to save: ' + error.message);
+                    isSubmitting = false;
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-save me-2"></i>Save Record';
+                });
+
+            return false;
+        }
+    </script>
+</body>
+</html>
