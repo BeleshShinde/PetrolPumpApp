@@ -277,43 +277,16 @@ Authorization: Bearer {token}
 
 ---
 
-## 🔮 Future Enhancements
-
-### Planned Features
-- [ ] **Multi-user Support** - Role-based access control (Admin, Operator, Viewer)
-- [ ] **Advanced Reporting** - Charts, graphs, and downloadable Excel/PDF reports
-- [ ] **Real-time Integration** - Direct integration with fuel dispensers via API
-- [ ] **Mobile Application** - Native iOS/Android applications
-- [ ] **Payment Gateway** - Integration with online payment systems
-- [ ] **Audit Trail** - Complete activity logging and history tracking
-- [ ] **Automated Backups** - Scheduled database backup mechanisms
-- [ ] **Email Notifications** - Alerts for low inventory, high-value transactions
-- [ ] **API Rate Limiting** - Prevent abuse and ensure fair usage
-- [ ] **Internationalization** - Multi-language support (Hindi, English, Marathi)
-
-### Technical Improvements
-- [ ] **Microservices Architecture** - Break down into smaller, independent services
-- [ ] **Redis Caching** - Improve performance with distributed caching
-- [ ] **Docker Support** - Containerization for easier deployment and scaling
-- [ ] **CI/CD Pipeline** - Automated testing and deployment with GitHub Actions
-- [ ] **Unit Tests** - Comprehensive test coverage with NUnit/xUnit
-- [ ] **API Versioning** - Support multiple API versions for backward compatibility
-- [ ] **GraphQL** - Alternative API query language for flexible data fetching
-- [ ] **WebSockets** - Real-time updates for live transaction monitoring
-
----
-
 ## 📄 License
 
-This project is developed as part of a coding assessment for Blackbox.
+This project is developed as part of a coding assessment .
 
 ---
 
 ## 👤 Author
 
 **Belesh Shinde**  
-Software Developer  
-Yalamanchili Software Exports Pvt Ltd, Mumbai
+Software Developer
 
 **GitHub:** [@BeleshShinde](https://github.com/BeleshShinde)  
 **Repository:** [PetrolPumpApp](https://github.com/BeleshShinde/PetrolPumpApp)
@@ -395,8 +368,6 @@ For issues, questions, or feature requests:
 For detailed troubleshooting, see the [Issues](https://github.com/BeleshShinde/PetrolPumpApp/issues) page.
 
 ---
-
-**Built with ❤️ for Blackbox Coding Challenge**
 
 *Last Updated: November 15, 2025 | Version: 1.0.0*
 
